@@ -15,6 +15,8 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     
+     
     public function index()
     {
         $tasks = Task::all();
@@ -46,7 +48,7 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        $task = new Message;
+        $task = new Task;
         $task->content = $request->content;
         $task->save();
 
