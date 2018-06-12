@@ -13,11 +13,28 @@
             </div>
         </aside>
         <div class="col-xs-8">
-            <ul class="nav nav-tabs nav-justified">
-                <li><a href="#">TimeLine</a></li>
-                <li><a href="#">Followings</a></li>
-                <li><a href="#">Followers</a></li>
-            </ul>
+            
+             @if (Auth::user()->id == $user->id)
+                 
+                {!! Form::open(['route' => 'tasks.store']) !!}
+                  
+                <div class='form-group'>
+                    {!! Form::label('content', 'タスク:') !!}
+                    {!! Form::text('content',null,['class'=>'form-control']) !!}
+                </div>
+    
+                <div class='form-group'>
+                    {!! Form::label('status','ステータス:')!!}
+                    {!! Form::text('status',null,['class'=>'form-control'])!!}
+                </div>
+    
+                    {!! Form::submit('投稿',['class'=>'btn btn-primary']) !!}
+
+                {!! Form::close() !!}
+            @endif
+            @if (count($tasks) > 0)
+                @include('tasks.tasks', ['tasks' => $tasks])
+            @endif
         </div>
     </div>
 @endsection
