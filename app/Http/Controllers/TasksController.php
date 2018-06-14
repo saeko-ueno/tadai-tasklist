@@ -10,12 +10,7 @@ use App\Task;
 
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-     
+    
      
     public function index()
     {
@@ -38,11 +33,7 @@ class TasksController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
          $task = new Task;
@@ -52,12 +43,7 @@ class TasksController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
 
@@ -75,38 +61,42 @@ class TasksController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
-         $task = Task::find($id);
+        $task = Task::find($id);
+        if (\Auth::user()->id===$task->user_id){
 
         return view('tasks.show', [
             'task' => $task,
         ]);
+        }
+    
+       else{ return redirect('/');
+           
+       }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         $task = Task::find($id);
-
-        return view('tasks.edit', [
+        if (\Auth::user()->id===$task->user_id){
+            
+            return view('tasks.edit', [
             'task' => $task,
         ]);
+        }
         
-      
-        return redirect()->back();
+        else{
+            return redirect()->back();
+        }
     }
+            
+ 
+       
+       
+    
 
     /**
      * Update the specified resource in storage.
@@ -115,6 +105,8 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+     
+     
     public function update(Request $request, $id)
     {
         $task = Task::find($id);
@@ -131,6 +123,8 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+     
+     
     public function destroy($id)
     {
         $task = \App\Task::find($id);

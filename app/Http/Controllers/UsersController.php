@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User; 
+use App\Task;
 
 class UsersController extends Controller
 {
@@ -19,18 +20,41 @@ class UsersController extends Controller
     
     
      public function show($id)
-    {
+    {   
+        if (\Auth::user()->id===$id){
+            
+        
         $user = User::find($id);
         $tasks=$user->tasks()->orderBy('created_at','desc')->paginate(10);
         
+         
         
         $data = [
             'user' => $user,
             'tasks' => $tasks,
         ];
+        
+        
+      
 
         $data += $this->counts($user);
-
-        return view('users.show', $data);
+      
+        
+        
+     
+        return view('users.show', [
+            'task' => $task,
+        ]);
+        }
+    
+       else{ 
+            return redirect('/');
+           
+       }
+       
     }
+        
+       
+        
+
 }
